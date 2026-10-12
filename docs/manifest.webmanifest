@@ -1,0 +1,18 @@
+{
+  "id": "./",
+  "name": "Mi Pequeña Mascota",
+  "short_name": "Mi Mascota",
+  "description": "Un pequeño amigo al que cuidar, alimentar y acompañar mientras crece.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#faf5e9",
+  "theme_color": "#688d75",
+  "categories": ["games", "education"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

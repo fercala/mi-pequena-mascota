@@ -1,0 +1,11 @@
+{
+  "name": "mi-pequena-mascota",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node build-pwa.mjs",
+    "preview": "node preview.mjs",
+    "test": "node check-model.mjs && node check-care.mjs && node check-experience.mjs && node check-adventures.mjs && node check-pwa.mjs"
+  },
+  "devDependencies": { "sharp": "0.35.5" }
+}

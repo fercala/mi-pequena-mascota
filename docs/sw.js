@@ -1,0 +1,11 @@
+'use strict';
+const PREFIX='mi-mascota:'+self.registration.scope+':';
+const CACHE=PREFIX+'3d9ae673003d9177';
+const FILES=["adventure-model.js","adventures.css","adventures.js","art.js","care-sessions.js","experience.css","experience.js","game.js","icon.svg","icons/apple-touch-icon.png","icons/icon-192.png","icons/icon-512.png","icons/maskable-512.png","index.html","living-pet.css","manifest.webmanifest","model.js","pwa.css","pwa.js","style.css"];
+const base=new URL('./',self.location.href);
+const shell=new URL('index.html',base).href;
+const urls=new Set(FILES.map(f=>new URL(f,base).href));
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES.map(f=>new URL(f,base).href)))));
+self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith(PREFIX)&&key!==CACHE)await caches.delete(key);await self.clients.claim();})()));
+self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});
+self.addEventListener('fetch',event=>{const req=event.request,url=new URL(req.url);if(req.method!=='GET'||url.origin!==base.origin||!url.pathname.startsWith(base.pathname))return;const navigation=req.mode==='navigate'&&(url.pathname===base.pathname||url.pathname===new URL('index.html',base).pathname);url.search='';url.hash='';if(!navigation&&!urls.has(url.href))return;event.respondWith((async()=>{const cache=await caches.open(CACHE),cached=await cache.match(navigation?shell:url.href);if(cached)return cached;return fetch(req);})());});
