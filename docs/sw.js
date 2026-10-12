@@ -1,6 +1,6 @@
 'use strict';
 const PREFIX='mi-mascota:'+self.registration.scope+':';
-const CACHE=PREFIX+'3d9ae673003d9177';
+const CACHE=PREFIX+'5add331669765762';
 const FILES=["adventure-model.js","adventures.css","adventures.js","art.js","care-sessions.js","experience.css","experience.js","game.js","icon.svg","icons/apple-touch-icon.png","icons/icon-192.png","icons/icon-512.png","icons/maskable-512.png","index.html","living-pet.css","manifest.webmanifest","model.js","pwa.css","pwa.js","style.css"];
 const base=new URL('./',self.location.href);
 const shell=new URL('index.html',base).href;

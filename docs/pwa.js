@@ -10,15 +10,15 @@
  window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();prompt=event;install.textContent='📲 Instalar el juego';});
  install.addEventListener('click',async()=>{if(prompt){const event=prompt;prompt=null;try{await event.prompt();await event.userChoice;}catch{showHelp();}sync();}else showHelp();});
  document.querySelector('#closeInstallHelp').addEventListener('click',()=>help.close());
- function waiting(){if(registration?.waiting){update.hidden=false;update.textContent='✨ Hay una actualización';}}
+ function waiting(){update.hidden=!registration?.waiting;if(!update.hidden)update.textContent='✨ Hay una actualización';}
  update.addEventListener('click',()=>{if(!registration?.waiting)return;window.dispatchEvent(new Event('pet-before-update'));updating=true;update.disabled=true;registration.waiting.postMessage({type:'SKIP_WAITING'});});
  if('serviceWorker' in navigator&&window.isSecureContext){
    status.textContent='Preparando el juego sin conexión…';
    navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(reg=>{
      registration=reg;waiting();
-     reg.addEventListener('updatefound',()=>{const worker=reg.installing;if(worker)worker.addEventListener('statechange',()=>{if(worker.state==='installed')waiting();});});
-     navigator.serviceWorker.ready.then(()=>{status.textContent='✓ Juego preparado para jugar sin conexión';});
+     reg.addEventListener('updatefound',()=>{const worker=reg.installing;if(worker)worker.addEventListener('statechange',()=>{if(['installed','activated'].includes(worker.state))waiting();});});
+     navigator.serviceWorker.ready.then(()=>{waiting();status.textContent='✓ Juego preparado para jugar sin conexión';});
    }).catch(()=>{status.textContent='Abre el juego con conexión para preparar el modo sin internet.';});
-   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(updating)window.location.reload();});
+   navigator.serviceWorker.addEventListener('controllerchange',()=>{waiting();if(updating)window.location.reload();});
  }else status.textContent='Puedes jugar desde el navegador. La instalación requiere una conexión HTTPS compatible.';
 })();
